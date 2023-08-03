@@ -7,44 +7,43 @@ const apiRouter = express.Router();
 //imports the uuid module to be used to generate random IDs.
 const uuid = require("uuid");
 
-//imports the DB class, which used to interact with the db.json.
-const notesDB = require("../db/DB");
+//imports the notes class, which used to interact with the notes.json.
+const notesDB = require("../db/notes.json");
 
-//defines the route for getting notes. This route will return all of the notes from the db.json.
+//defining the route for getting notes which will return all of the notes from the db.json.
 apiRouter.get("/api/notes", async function (req, res) {
-  const noteData = await notesDB.readNotes();
+  const noteData = await notesDB.readANote();
   return res.json(noteData);
 });
 
 // defines the route for adding a new note and this route will add a new note to the db.json.
 apiRouter.post("/api/notes", async function (req, res) {
-  const currentNotes = await notesDB.readNotes();
-  let newNote = {
+  const currentNotes = await notesDB.readANote();
+  let newNoteData = {
     id: uuid(),
     title: req.body.title,
     text: req.body.text,
   };
 
-  await notesDB.addNote([...currentNotes, newNote]);
+  await notesDB.addANote([...currentNotes, newNoteData]);
 
   return res.send(newNote);
 });
 
 // defining the route for deleting a note using the :id as a parameter, the following route will delete a note from the db.json.
 apiRouter.delete("/api/notes/:id", async function (req, res) {
-  const noteToDelete = req.params.id;
-  const currentNotes = await notesDB.readNotes();
-  const newNoteData = currentNotes.filter((note) => note.id !== noteToDelete);
+  const deleteANote = req.params.id;
+  const currentNote = await notesDB.readANote();
+  const newNoteData = currentNote.filter((note) => note.id !== deleteANote);
 
-  await notesDB.deleteNote(newNoteData);
-
+  await notesDB.deleteANote(newNoteData);//The `await` keyword is used to wait for the completion of an asyn operation.here, the async op is the `notesDB.deleteANote()` method. 
+  //The `await` keyword ensures that the `res.send()` 
+  //method is not called until the `notesDB.deleteNote()` method has completed.
+  
+  
   return res.send(newNoteData);
 });
 
 //exporting the api router will help us create the web-server.
 module.exports = apiRouter;
-
-
-
-
 

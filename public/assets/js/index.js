@@ -1,6 +1,6 @@
 //Notes to self:
 
-//global variables
+//global variables for DOM elements
 let noteTitle;
 let noteText;
 let saveNoteBtn;
