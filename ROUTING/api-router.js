@@ -7,17 +7,17 @@ const apiRouter = require('express').Router();
 const {v4: uuidv4} = require('uuid');
 
 //imports the notes class, which used to interact with the notes.json.
-const notesJS = require('../db/notes');
+const notesJS = require('../db/manipulate-notes.js');
 
 //defining the route for getting notes which will return all of the notes from the db.json.
 apiRouter.get('/api/notes', async function (req, res) {
-  const notesToBeRead = await notesJS.readANote();
+  const notesToBeRead = await notesJS.readNote();
   return res.json(notesToBeRead);
 });
 
 // defining the route for adding a new note and this route will add a new note to the db.json.
 apiRouter.post('/api/notes',(req, res) => {
-  const readcurrentNote = notesJS.readANote();
+  const readcurrentNote = notesJS.readNote();
   let newNoteFile = {
     id: uuidv4(),
     title: req.body.title,
@@ -32,10 +32,10 @@ apiRouter.post('/api/notes',(req, res) => {
 // defining the route for deleting a note using the :id as a parameter, the following route will delete a note from the db.json.
 apiRouter.delete("/api/notes/:id",  (req, res)=> {
   const deleteANote = req.params.id;
-  const readcurrentNote =  notesJS.readANote();
+  const readcurrentNote =  notesJS.readNote();
   const newNotes = readcurrentNote.filter(() => newNoteData.id !== deleteANote);
 
-  notesJS.deleteANote(newNoteData);//The `await` keyword is used to wait for the completion of an async operation.here, the async op is the `notesDB.deleteANote()` method.The `await` keyword ensures that the `res.send()` method is not called until the `notesDB.deleteANote()` method has been completed.
+  notesJS.deleteNote(newNoteData);//The `await` keyword is used to wait for the completion of an async operation.here, the async op is the `notesDB.deleteANote()` method.The `await` keyword ensures that the `res.send()` method is not called until the `notesDB.deleteANote()` method has been completed.
   return res.send(newNoteData);
 });
 

@@ -1,19 +1,26 @@
 const express = require('express');
-const path = require('path');
-const { customeMiddleWare} = require('./middleware/custom-route');
-const api = require('./ROUTING/api-router.js');
-
+// const path = require('path');
+const apiRoutes = require('./ROUTING/api-router.js');
+const htmlRoutes = require('./ROUTING/api-router.js');
 const PORT = process.env.PORT || 3001;
-
 const app = express();
 
-// Import custom middleware
-app.use(customeMiddleWare);
+const fs=require ("fs");
+const util = require("util");
+const {v4: uuidv4} = require("uuid");
+const db = require("./db.json");
+const readFile=util.promisify(fs.readFile);
+const writeFile=util.promisify(fs.writeFile);
+
+
+
 
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', api);
+
+app.use( apiRoutes);
+app.use(htmlRoutes);
 
 app.use(express.static('public'));
 
@@ -30,23 +37,4 @@ app.get('/notes', (req, res) =>
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
-
-
-
-// //create a PORT variable
-// const PORT = process.env.PORT || 3000;
-
-// //set up express to handle data parsing
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(express.static("public"));
-
-// const apiRoutes = require("./routes/apiRoutes");
-// app.use(apiRoutes);
-// const htmlRoutes = require("./routes/htmlRoutes");
-// app.use(htmlRoutes);
-
-// //create server listener
-// app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
-
 
