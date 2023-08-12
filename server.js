@@ -1,40 +1,35 @@
+//dependencies
 const express = require('express');
-// const path = require('path');
 const apiRoutes = require('./ROUTING/api-router.js');
-const htmlRoutes = require('./ROUTING/api-router.js');
-const PORT = process.env.PORT || 3001;
+const htmlRoutes = require('./ROUTING/html-router.js');
+const PORT = process.env.PORT || 3001;//port number
 const app = express();
-
-const fs=require ("fs");
-const util = require("util");
-const {v4: uuidv4} = require("uuid");
-const db = require("./db.json");
-const readFile=util.promisify(fs.readFile);
-const writeFile=util.promisify(fs.writeFile);
-
-
+const path = require('path');
+// const db = require("./db/db.json");//nnotes json file
 
 
 // Middleware for parsing JSON and urlencoded form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use( apiRoutes);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(apiRoutes);
 app.use(htmlRoutes);
 
-app.use(express.static('public'));
-
 // GET Route for homepage
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/assets/index.html'))
-);
+// api call for the notes, result get sent to browser in the form of an object array 
 
-// GET Route for feedback page
-app.get('/notes', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/assets/notes.html'))
-);
+//res.sendFile(path.join(__dirname, '/public/assets/index.html'))
+
+// app.get("*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "public/assets/index.html"));
+// });
+
+
+// // GET Route for feedback page
+// app.get('/api/notes', (req, res) =>
+//   res.sendFile(path.join(__dirname, '/public/assets/notes.html'))
+// );
 
 app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
+  console.log(`Note Taking App listening at http://localhost:${PORT} 🚀`)
 );
-

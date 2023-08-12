@@ -11,4 +11,9 @@ htmlRouter.get("/*", function (req, res) {
   res.sendFile(pathToHTML.join(__dirname, "../public/assets/index.html"));
 });
 
+// htmlRouter.get("/api/notes", function (req, res) {
+//   return res.sendFile(pathToHTML.json(__dirname, "db/db.json"));
+// });
+
+
 module.exports = htmlRouter;//exporting router instance
