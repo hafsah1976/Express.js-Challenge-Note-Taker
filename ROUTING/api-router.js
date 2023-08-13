@@ -2,11 +2,13 @@
 //This module is used to create web servers.
 // an instance of this router will be used to route requests to different parts of your application.
 const apiRouter = require('express').Router();
+//const db = require("./db/db.json");//nnotes json file
+
 //create an empty notes array
-let notesFile=[];
+let notesFile=[]
 
 //imports the uuid and fs modules to be used to generate random IDs and read and write files, respectively.
-const {v4: uuidv4} = require('uuid');
+const {v4: uuidv4} = require("uuid");
 const fs=require ("fs");//read and write module
 const util = require("util");//utilities module
 
@@ -16,10 +18,10 @@ const util = require("util");//utilities module
 // });
 
 //defining the route for getting notes which will return all of the notes from the db.json.
-apiRouter.get('/api/notes', (req, res) =>{
+apiRouter.get('/notes', (req, res) =>{
   try
   {
-  notesFile= fs.readFileSync("./db/db.json", "utf8")
+  notesFile= fs.readFileSync("db/db.json", "utf8")
   console.log("Connection Successful!");
   notesFile=JSON.parse(notesFile);
   } catch(error){
@@ -44,9 +46,9 @@ apiRouter.get('/api/notes', (req, res) =>{
 
 
 // defining the route for adding a new note and this route will add a new note to the db.json.
-apiRouter.post("/api/notes", function (req, res) {
+apiRouter.post("/notes", function (req, res) {
   try {
-    notesFile = fs.readFileSync("./db/db.json", "utf8");
+    notesFile = fs.readFileSync("db/db.json", "utf8");
     console.info(notesFile);
     notesFile = JSON.parse(notesFile);
     let newNotesFile={
@@ -55,7 +57,11 @@ apiRouter.post("/api/notes", function (req, res) {
       text:req.body.text,
     };
     req.body.id = newNotesFile.length;
-    newNotesFile.push(req.body);
+    newNotesFile.push({
+      id:uuidv4(),
+      title:req.body.title,
+      text:req.body.text,
+    });
     newNotesFile = JSON.stringify(newNotesFile);
     fs.writeFileSync("db/db.json", newNotesFile, "utf8", function (error) {
       if (error) {
@@ -81,15 +87,15 @@ apiRouter.post("/api/notes", function (req, res) {
 
 // defining the route for deleting a note using the :id as a parameter, the following route will delete a note from the db.json.
 
-apiRouter.delete("/api/notes/:id", function (req, res) {
+apiRouter.delete("/notes/:id", function (req, res) {
   try {
-    notesFile = fs.readFileSync("./db/db.json", "utf8");
+    notesFile = fs.readFileSync("db/db.json", "utf8");
     notesFile = JSON.parse(notesFile);
     notesFile = notesFile.filter(function (note) {
       return note.id != req.params.id;
     });
     notesFile = JSON.stringify(notesFile);
-    fs.writeFileSync("./db/db.json", notesFile, "utf8", function (error) {
+    fs.writeFileSync("db/db.json", notesFile, "utf8", function (error) {
       if (error) 
       throw console.log(error);
     });

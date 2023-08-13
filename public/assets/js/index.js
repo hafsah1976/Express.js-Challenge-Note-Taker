@@ -7,7 +7,7 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 //getting elements to display in the window
-if (window.location.pathname === '/notes') {
+if (window.location.pathname === '/notes.html') {
     noteTitle = document.querySelector('.note-title');
     noteText = document.querySelector('.note-textarea');
     saveNoteBtn = document.querySelector('.save-note');
@@ -162,7 +162,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
     let jsonNotes = await notes.json();//gets the JSON data for the notes from the promise. 
-    if (window.location.pathname === '/notes') {
+    if (window.location.pathname === '/notes.html') {
       noteList.forEach((el) => (el.innerHTML = ''));//If the current page is the notes page, the function clears the contents of the note list.
     }
   
@@ -214,15 +214,15 @@ if (jsonNotes.length === 0) {
   });
 
 // checks if the current page is the notes page. 
-  if (window.location.pathname === '/notes') {
+  if (window.location.pathname === '/notes.html') {
     noteListItems.forEach((note) => noteList[0].append(note));//If the check is true,iterate over the list of notes array and append each item in the list to the first list element
   }
 };
 
 // Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getANote().then(renderNoteList);
+const getAndRenderNotes = () => getNotes().then(renderNoteList);
 //adding event listeners to the buttons
-if (window.location.pathname === '/notes') {
+if (window.location.pathname === '/notes.html') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);

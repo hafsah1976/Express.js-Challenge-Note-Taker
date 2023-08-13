@@ -1,19 +1,18 @@
-const express = require('express');//imports express module
-const htmlRouter = express.Router();//creates a new router instance that we will use to get and post html
+const htmlRouter = require('express').Router();//creates a new router instance that we will use to get and post html
 const pathToHTML = require("path");//importing path module
 
 //defining a route to the /notes path, which will server the notes.html file
 htmlRouter.get("/notes", function (req, res) {
-  res.sendFile(pathToHTML.join(__dirname, "../public/assets/notes.html"));
+  res.sendFile(pathToHTML.join(__dirname, "./notes.html"));
 });
 //defining the route for all other paths which will serve the index.html file 
 htmlRouter.get("/*", function (req, res) {
-  res.sendFile(pathToHTML.join(__dirname, "../public/assets/index.html"));
+  res.sendFile(pathToHTML.join(__dirname, "./index.html"));
 });
 
-// htmlRouter.get("/api/notes", function (req, res) {
-//   return res.sendFile(pathToHTML.json(__dirname, "db/db.json"));
-// });
+  htmlRouter.get("/api/notes", function (req, res) {
+   return res.sendFile(pathToHTML.json(__dirname, "db/db.json"));
+ });
 
 
 module.exports = htmlRouter;//exporting router instance
