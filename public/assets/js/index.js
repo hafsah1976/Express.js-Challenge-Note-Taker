@@ -52,7 +52,6 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
-
   //This function sends a DELETE request to the API with the note-ID 
   //as the request URL.
 
