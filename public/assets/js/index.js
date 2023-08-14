@@ -7,7 +7,7 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 //getting elements to display in the window
-if (window.location.pathname === '/notes.html') {
+if (window.location.pathname === '/notes') {
     noteTitle = document.querySelector('.note-title');
     noteText = document.querySelector('.note-textarea');
     saveNoteBtn = document.querySelector('.save-note');
@@ -24,7 +24,6 @@ const show = (elem) => {
   
 //takes an element as an argument and 
 //sets its display property to "none".
-// Hide an element
 // Hide an element
 const hide = (elem) => {
     elem.style.display = 'none';
@@ -110,7 +109,6 @@ const handleNoteSave = () => {
 //and then gets and renders the notes again.
 
 // Delete the clicked note
-// Delete the clicked note
 const handleNoteDelete = (e) => {
     // Prevents the click listener for the list from being called when the button inside of it is clicked
     e.stopPropagation();
@@ -162,7 +160,7 @@ const handleRenderSaveBtn = () => {
 // Render the list of note titles
 const renderNoteList = async (notes) => {
     let jsonNotes = await notes.json();//gets the JSON data for the notes from the promise. 
-    if (window.location.pathname === '/notes.html') {
+    if (window.location.pathname === '/notes') {
       noteList.forEach((el) => (el.innerHTML = ''));//If the current page is the notes page, the function clears the contents of the note list.
     }
   
@@ -214,7 +212,7 @@ if (jsonNotes.length === 0) {
   });
 
 // checks if the current page is the notes page. 
-  if (window.location.pathname === '/notes.html') {
+  if (window.location.pathname === '/notes') {
     noteListItems.forEach((note) => noteList[0].append(note));//If the check is true,iterate over the list of notes array and append each item in the list to the first list element
   }
 };
@@ -222,7 +220,7 @@ if (jsonNotes.length === 0) {
 // Gets notes from the db and renders them to the sidebar
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
 //adding event listeners to the buttons
-if (window.location.pathname === '/notes.html') {
+if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
   newNoteBtn.addEventListener('click', handleNewNoteView);
   noteTitle.addEventListener('keyup', handleRenderSaveBtn);

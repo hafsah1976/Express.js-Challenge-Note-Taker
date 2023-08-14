@@ -1,16 +1,17 @@
 //imports the express module. 
 //This module is used to create web servers.
 // an instance of this router will be used to route requests to different parts of your application.
-const apiRouter = require('express').Router();
-//const db = require("./db/db.json");//nnotes json file
-
-//create an empty notes array
-let notesFile=[]
-
+const express = require('express');
+const apiRouter=express.Router();
+let db = ('db/db.json');//notes json file
+const path = require("path");//importing path module
 //imports the uuid and fs modules to be used to generate random IDs and read and write files, respectively.
 const {v4: uuidv4} = require("uuid");
 const fs=require ("fs");//read and write module
-const util = require("util");//utilities module
+
+//create an empty notes array
+let notesFile=[];
+
 
 // apiRouter.get('/api/notes', async function (req, res) {
 //   const notesToBeRead = await notesJS.readNote();
@@ -21,13 +22,14 @@ const util = require("util");//utilities module
 apiRouter.get('/notes', (req, res) =>{
   try
   {
-  notesFile= fs.readFileSync("db/db.json", "utf8")
+  db= fs.readFileSync("db/db.json", "utf8")
   console.log("Connection Successful!");
-  notesFile=JSON.parse(notesFile);
+
+   db=JSON.parse(db);
   } catch(error){
     console.log("\n Error reading the file.", error);
   }
-  res.json(notesFile);
+  res.json(db);
   }
   );
   
@@ -46,65 +48,73 @@ apiRouter.get('/notes', (req, res) =>{
 
 
 // defining the route for adding a new note and this route will add a new note to the db.json.
-apiRouter.post("/notes", function (req, res) {
-  try {
-    notesFile = fs.readFileSync("db/db.json", "utf8");
-    console.info(notesFile);
-    notesFile = JSON.parse(notesFile);
-    let newNotesFile={
-      id:uuidv4(),
-      title:req.body.title,
-      text:req.body.text,
-    };
-    req.body.id = newNotesFile.length;
-    newNotesFile.push({
-      id:uuidv4(),
-      title:req.body.title,
-      text:req.body.text,
-    });
-    newNotesFile = JSON.stringify(newNotesFile);
-    fs.writeFileSync("db/db.json", newNotesFile, "utf8", function (error) {
-      if (error) {
-        throw console.log(error);}
-    });
-
-    res.json(JSON.parse(newNotesFile));
-  } catch (error) {
-    console.error(error);
+function postNewNote(){
+    db = fs.readFileSync("db/db.json", "utf8");
+    const newNoteData=body;
+    if(!Array.isArray(db))
+    db=[];
+  if(db.length===0)
+  db.push(0);
+  req.body.id = db[0];
+  db[0]++; 
+    console.log(db);
+    db.push(newNoteData);
+      db= JSON.parse(db);
+    // newNotesFile.push({
+    //   id:uuidv4(),
+    //   title:req.body.title,
+    //   text:req.body.text,
+    // });
+    fs.writeFileSync(path.join(__dirname, "db/db.json", "utf8"), 
+    JSON.stringify(db, null, 2)
+    );
+    return newNoteData;
   }
+
+ apiRouter.post ('/notes', (req, res)=>{
+
+  const newNoteData=postNewNote(req.body, db);
+    res.json((newNoteData));
+    // res.status(200).json("Success!");
 });
 
-
-// apiRouter.delete("/api/notes/:id",  (req, res)=> {
-//   const deleteANote = req.params.id;
-//   const readcurrentNote =  notesJS.readNote();
-//   const newNotes = readcurrentNote.filter(() => newNoteData.id !== deleteANote);
-
-//   notesJS.deleteNote(newNoteData);//The `await` keyword is used to wait for the completion of an async operation.here, the async op is the `notesDB.deleteANote()` method.The `await` keyword ensures that the `res.send()` method is not called until the `notesDB.deleteANote()` method has been completed.
-//   return res.send(newNoteData);
-// });
 
 
 // defining the route for deleting a note using the :id as a parameter, the following route will delete a note from the db.json.
-
-apiRouter.delete("/notes/:id", function (req, res) {
-  try {
-    notesFile = fs.readFileSync("db/db.json", "utf8");
-    notesFile = JSON.parse(notesFile);
-    notesFile = notesFile.filter(function (note) {
-      return note.id != req.params.id;
-    });
-    notesFile = JSON.stringify(notesFile);
-    fs.writeFileSync("db/db.json", notesFile, "utf8", function (error) {
-      if (error) 
-      throw console.log(error);
-    });
-
-    res.send(JSON.parse(notesFile));
-  } catch (error) {
-    throw console.log(error) ;  
+function deleteNote(id){
+  for(let i=0;i<db.length;i++){
+    let note = db[i].id;
+    if (note.id==id){
+      db=notesFile.splice(i, 1);
+      fs.writeFileSync(path.join(__dirname, 'db/db.json'));
+      JSON.stringify(db, null, 2);
+    }
   }
-});
+}
+
+apiRouter.delete('/notes/:id', (req,res)=>{
+  deleteNote(req.params.id, db);
+  res.status(200).json('Success!', true);
+})
+
+// apiRouter.delete("/notes/:id", function (req, res) {
+//   try {
+//     notesFile = fs.readFileSync("db/db.json", "utf8");
+//     notesFile = JSON.parse(notesFile);
+//     notesFile = notesFile.filter(function (note) {
+//       return console.log(note.id != req.params.id);
+//     });
+//     notesFile = JSON.stringify(notesFile);
+//     fs.writeFileSync("db/db.json", notesFile, "utf8", function (error) {
+//       if (error) 
+//       throw console.log(error);
+//     });
+
+//     res.send(JSON.parse(notesFile));
+//   } catch (error) {
+//     throw console.log(error) ;  
+//   }
+// });
 
 
 //exporting the api router will help us create the web-server.
