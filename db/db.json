@@ -4,18 +4,28 @@
         "text": "Test text"
     },
     {
-        "id": "7798ff7c-8af2-4d89-b44c-b8a1af4337d7",
-        "title": "Let's see what this is",
-        "text": "How to work around adhd"
+        "id": "d607a974-140a-4d4e-b107-1835fb9ae34c",
+        "title": "good evening",
+        "text": "hello"
     },
     {
-        "id": "549a70bd-14fe-45c0-acfd-220c9097a037",
-        "title": "eee",
-        "text": "dddd"
+        "id": "7684b9dd-1bc6-4b9e-9a6d-889f21e7dd65",
+        "title": "what is this doing",
+        "text": "friends"
     },
     {
-        "id": "7898af26-7df3-4092-a427-ad2289d8c737",
-        "title": "ee",
-        "text": "w3"
+        "id": "fe4842eb-f50a-411f-be8b-e369296c4617",
+        "title": "Render Notes on load",
+        "text": "good job"
+    },
+    {
+        "id": "f6039e61-fff1-49c1-8edb-2e37180433bc",
+        "title": "rendering works",
+        "text": "fixed the placeholder size to see the whole letter g"
+    },
+    {
+        "id": "59e70a05-7761-4e6e-972a-4fb8e3bb4ce4",
+        "title": "random id workd",
+        "text": "great"
     }
 ]

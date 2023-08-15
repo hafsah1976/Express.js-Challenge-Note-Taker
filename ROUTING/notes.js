@@ -1,85 +1,74 @@
-//imports the express module. 
-//This module is used to create web servers.
-// an instance of this router will be used to route requests to different parts of your application.
-const notes = require('express').Router();
-// let db = ('db/db.json');//notes json file
-//imports the uuid and fs modules to be used to generate random IDs and read and write files, respectively.
-const {v4: uuidv4} = require("uuid");
+// Import required modules
+const express = require('express');
+const { v4: uuidv4 } = require("uuid");
 const {
   readFromFile,
   readAndAppend,
   writeToFile,
 } = require('../helper/FileSystem');
 
-// GET Route for retrieving all the notes
-notes.get('/notes', (req, res) => {
-  readFromFile('db/db.json').then((data) => res.json(JSON.parse(data)));
+// Create an instance of Express router
+const notesRouter = express.Router();
+
+// GET Route: Retrieve all notes
+notesRouter.get('/notes', (req, res) => {
+  // Read notes data from file and send as JSON response
+  readFromFile('db/db.json')
+    .then((data) => res.json(JSON.parse(data)))
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Server Error!');
+    });
 });
 
-//GET route for specific note
-// notes.get('/:id', (req, res) => {
-//   const noteId = req.params.id;
-//   readFromFile('db/db.json')
-//     .then((data) => JSON.parse(data))
-//     .then((json) => {
-//       const result = json.filter((db) => db.id === noteId);
-//       return result.length > 0
-//         ? res.json(result)
-//         : res.json('No notes found with that ID');
-//     });
-// });
+// POST Route: Add a new note
+notesRouter.post('/notes', (req, res) => {
+  const { title, text } = req.body;
 
-
-// defining the route for adding a new note and this route will add a new note to the db.json.
-
- notes.post ('/notes', (req, res)=>{
-  console.log(req.body);
-  const  {id, title, text} =req.body;
-  if(req.body){
-    const newNote={
-      id :uuidv4 (),
+  // Check if request body has required fields
+  if (title && text) {
+    const newNote = {
+      id: uuidv4(), // Generate a new unique ID
       title,
       text,
     };
-    readAndAppend(newNote, 'db/db.json');
-    res.json(("Note added!", newNote));
-}else{
-  res.status(400).json('Error in posting!');
-}
+
+    // Append new note to file and send a response
+    readAndAppend(newNote, 'db/db.json')
+      .then(() => res.json({ message: "Note added!", note: newNote }))
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('');
+      });
+  } else {
+    res.status(400).json('Title or Text Missing');
+  }
 });
 
-// function deleteNote(id){
-//   for(let i=0;i<db.length;i++){
-//     let note = db[i].id;
-//     if (note.id==id){
-//       db=notesFile.splice(i, 1);
-//       fs.writeFileSync(path.join(__dirname, 'db/db.json'));
-//       JSON.stringify(db, null, 2);
-//     }
-//   }
-// }
+// DELETE Route: Delete a note by ID
+notesRouter.delete('/notes/:id', (req, res) => {
+  const noteId = req.params.id;
 
-// apiRouter.delete('/notes/:id', (req,res)=>{
-//   deleteNote(req.params.id, db);
-//   res.status(200).json('Success!', true);
-// })
-
-
-// defining the route for deleting a note using the :id as a parameter, the following route will delete a note from the db.json.
-
-notes.delete('/notes/:id', (req,res)=>{
-  const noteId=req.params.id;
+  // Read notes data from file
   readFromFile('db/db.json')
-  .then((data)=>JSON.parse(data))
-  .then((json)=>{
-    const result =json.filter((note)=> note.id !== noteId);
-    writeToFile('db/db.json', result);      // Save that array to the file
-    res.json(noteId);
-    console.log(`${noteId} has been deleted 🗑️`);
-  });
+    .then((data) => JSON.parse(data))
+    .then((notes) => {
+      const updatedNotes = notes.filter((note) => note.id !== noteId);//filter out the note to delete
+      writeToFile('db/db.json', updatedNotes)// and save the updated data
+        .then(() => {
+          res.json({ message: `${noteId} has been deleted 🗑️` });
+          console.log(`${noteId} has been deleted 🗑️`);
+        })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Server Error!');
+        });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Server Error!');
+    });
 });
 
-
-//exporting the api router will help us create the web-server.
-module.exports = notes;
-
+// Export the notesRouter for use in creating the web server
+module.exports = notesRouter;

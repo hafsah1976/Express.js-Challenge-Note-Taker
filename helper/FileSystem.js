@@ -1,34 +1,48 @@
-const fs = require('fs');
-const util = require('util');
+//using filesystem from class activities
 
-// Promise version of fs.readFile
+const util = require('util');
+const fs = require('fs');
+
+// Promisify the readFile function using the util.promisify method
 const readFromFile = util.promisify(fs.readFile);
-/**
- *  Function to write data to the JSON file given a destination and some content
- *  @param {string} destination The file you want to write to.
- *  @param {object} content The content you want to write to the file.
- *  @returns {void} Nothing
- */
-const writeToFile = (destination, content) =>
-  fs.writeFile(destination, JSON.stringify(content, null, 4), (err) =>
-    err ? console.error(err) : console.info(`\nNotes file has been modified. ${destination}`)
-  );
-/**
- *  Function to read data from a given a file and append some content
- *  @param {object} content The content you want to append to the file.
- *  @param {string} file The path to the file you want to save to.
- *  @returns {void} Nothing
- */
-const readAndAppend = (content, file) => {
-  fs.readFile(file, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      const parsedData = JSON.parse(data);
-      parsedData.push(content);
-      writeToFile(file, parsedData);
-    }
+
+// Function to write data to the JSON file given a destination and some content
+const writeToFile = (destination, content) => {
+  return new Promise((resolve, reject) => {
+    // Write the JSON content to the specified file
+    fs.writeFile(destination, JSON.stringify(content, null, 4), (err) => {
+      if (err) {
+        // If there's an error, log the error and reject the Promise
+        console.error(err);
+        reject(err);
+      } else {
+        // If successful, log a message and resolve the Promise
+        console.info(`\nNotes file has been modified. ${destination}`);
+        resolve();
+      }
+    });
   });
 };
 
+// Function to read data from a file, append new content, and write back
+const readAndAppend = async (content, file) => {
+  try {
+    // Read the existing data from the specified file
+    const data = await readFromFile(file, 'utf8');
+    
+    // Parse the existing data as JSON
+    const parsedData = JSON.parse(data);
+    
+    // Append the new content to the parsed data
+    parsedData.push(content);
+    
+    // Write the updated data back to the file
+    await writeToFile(file, parsedData);
+  } catch (err) {
+    // If there's an error during any step, log the error
+    console.error(err);
+  }
+};
+
+// Export the functions for use in other modules
 module.exports = { readFromFile, writeToFile, readAndAppend };
