@@ -57,7 +57,7 @@ notesRouter.delete('/notes/:id', (req, res) => {
       writeToFile('db/db.json', updatedNotes)// and save the updated data
         .then(() => {
           res.json({ message: `${noteId} has been deleted 🗑️` });
-          console.log(`${noteId} has been deleted 🗑️`);
+          // console.log(`${noteId} has been deleted 🗑️`);
         })
         .catch((error) => {
           console.error(error);

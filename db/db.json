@@ -4,11 +4,6 @@
         "text": "Test text"
     },
     {
-        "id": "d607a974-140a-4d4e-b107-1835fb9ae34c",
-        "title": "good evening",
-        "text": "hello"
-    },
-    {
         "id": "7684b9dd-1bc6-4b9e-9a6d-889f21e7dd65",
         "title": "what is this doing",
         "text": "friends"
@@ -24,8 +19,8 @@
         "text": "fixed the placeholder size to see the whole letter g"
     },
     {
-        "id": "59e70a05-7761-4e6e-972a-4fb8e3bb4ce4",
-        "title": "random id workd",
-        "text": "great"
+        "id": "4a442e70-ee88-4ce6-bb26-22bf4c25379c",
+        "title": "I have adhd",
+        "text": "often cannot ask for help"
     }
 ]
