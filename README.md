@@ -39,7 +39,7 @@ Open your favorite web browser (e.g., Chrome, Firefox, Safari), and navigate to 
 
 ## Walkthrough
 
-[Walkthrough in VSCODE](https://watch.screencastify.com/v/R7MzltklYRBTehOunnOB)
+[Walkthrough in VSCODE](https://watch.screencastify.com/v/Zq7TNVQ5lj33hwXomN1E)
 
 ## Features
 
