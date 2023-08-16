@@ -1,0 +1,73 @@
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .navbar {
+    background-color: #17a2b8; /* Original color */
+  }
+
+  .navbar-brand {
+    color: white; /* Original color */
+  }
+
+  .container {
+    margin-top: 80px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .p-5 {
+    padding: 3rem !important; /* Overriding Bootstrap padding */
+  }
+
+  .display-4 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: 1.25rem;
+  }
+
+  /* Media Queries for Responsive Design */
+
+  /* Small devices (landscape phones, 576px and up) */
+  @media (min-width: 576px) {
+    .display-4 {
+      font-size: 3rem;
+    }
+
+    .btn-lg {
+      padding: 1rem 1.5rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Medium devices (tablets, 768px and up) */
+  @media (min-width: 768px) {
+    .display-4 {
+      font-size: 4rem;
+    }
+
+    .btn-lg {
+      padding: 1.25rem 2rem;
+      font-size: 1.75rem;
+    }
+  }
+
+  /* Large devices (desktops, 992px and up) */
+  @media (min-width: 992px) {
+    .container {
+      margin-top: 150px;
+    }
+  }
