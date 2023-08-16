@@ -1,13 +1,14 @@
-# Express.js - Note Taking Application
+# Express.js - Note-Taking Application
 
 ## Description
 
-This is a web-based note taking application that allows the user to add , save , and delete their personal notes as they wish. It can be used for noting down reminders, ideas, or just their thoughts.
+This web-based note-taking application allows users to add, save, and delete their personal notes that they longer need. It can be used for noting down reminders, ideas, or just their thoughts.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Walkthrough](#walkthrough)
 - [Features](#features)
 - [Credits](#credits)
 - [License](#license)
@@ -16,9 +17,11 @@ This is a web-based note taking application that allows the user to add , save ,
 
 ### Accessing the Deployed Application
 
-Open your favorite web browser (e.g., Chrome, Firefox, Safari), navigate to the Application URL below:
+Open your favorite web browser (e.g., Chrome, Firefox, Safari), and navigate to the Application URL below:
 
-[Click here to use application](https://damp-reef-00063-48318da241c2.herokuapp.com/)
+[Click here to use the application](https://damp-reef-00063-48318da241c2.herokuapp.com/)
+
+[View GitHub Repo](https://github.com/hafsah1976/Express.js-Challenge-Note-Taker)
 
 ## Usage
 
@@ -34,9 +37,13 @@ Open your favorite web browser (e.g., Chrome, Firefox, Safari), navigate to the 
 
 ![View all notes page](images/savednotes-on-the-left.png)
 
+## Walkthrough
+
+[Walkthrough in VSCODE](https://watch.screencastify.com/v/R7MzltklYRBTehOunnOB)
+
 ## Features
 
-- **Creat a Note & Save it**: Users can create new notes by providing a title and text for each note, and click on the save icon on the top right.
+- **Create a Note & Save it**: Users can create new notes by providing a title and text then click on the save icon on the top right.
 - **View a Note**: Users can view their existing notes in the right column, displaying the note titles. Clicking on the note title will let the users see the title and details in the left column.
 - **Delete a Note**: Users can delete notes they no longer need in the right column.
 - **Responsive Design**: The application is designed to be responsive, adapting to different screen sizes on various devices.
